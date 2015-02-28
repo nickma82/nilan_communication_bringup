@@ -3,6 +3,7 @@ That project is supposed to provide software for basic communication with nilan 
 
 ## Software PreRequirements
 pytho packages: pyserial, minimalmodbus
+
 installation with pip: pip install pyserial minimalmodbus
 
 ## Hardware PreRequiremnts
