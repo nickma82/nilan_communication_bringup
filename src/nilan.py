@@ -17,7 +17,7 @@ class Nilan( minimalmodbus.Instrument ):
 
         self.serial.baudrate = 19200
         self.serial.parity = serial.PARITY_EVEN
-        self.serial.timeout = 0.1
+        self.serial.timeout = 1.0  #timeout to 1000ms because I discovered roundtrip times as high as 898.5 ms
 
         self.mode = minimalmodbus.MODE_RTU
         
@@ -47,19 +47,23 @@ class Nilan( minimalmodbus.Instrument ):
 ########################
 
 if __name__ == '__main__':
+    NILAN_SERIAL_PORT = '/dev/ttyUSB0'
 
-    minimalmodbus._print_out( 'TESTING Nilan Connection')
+    print( 'TESTING Nilan Connection')
 
-    n = Nilan('/dev/ttyUSB0')
+    n = Nilan(NILAN_SERIAL_PORT)
     n.debug = True
     print(n)
 
     ## starting demo
-    minimalmodbus._print_out( 't11:                    {0}'.format(  n.get_t11Top()             ))
-    minimalmodbus._print_out( 'userVentSet:             {0}'.format( n.get_userVent()       ))
-    n.set_userVent()
-    minimalmodbus._print_out( 'userVentSet:             {0}'.format( n.get_userVent()       ))
-    
-    minimalmodbus._print_out( 'DONE!' )
+    old_userVent_value = n.get_userVent()
+    print( 'old userVentSet:             {0}'.format( old_userVent_value ))
+
+    n.debug = False
+    new_designated_userVent = 1 if old_userVent_value==2 else 2
+    n.set_userVent(new_designated_userVent)
+    print( 'new userVentSet:             {0}'.format( n.get_userVent()       ))
+
+    print( 'Connection to the Nilan instrument looks good!' )
 
 pass    
