@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+#reference https://minimalmodbus.readthedocs.io/en/master/apiminimalmodbus.html#minimalmodbus.Instrument.read_register
 import minimalmodbus
 import serial
 
@@ -37,7 +38,7 @@ class Nilan( minimalmodbus.Instrument ):
         return self.read_register(1003, numberOfDecimals=0, signed=False, functioncode=3) 
 
     def set_userVent(self, speed=2):
-	if (speed<0) or (speed>4):
+        if (speed<0) or (speed>4):
             return
         return self.write_register(1003, speed)
 
